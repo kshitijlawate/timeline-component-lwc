@@ -28,20 +28,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 *Class Details*
-Test class for SystemUtilities
+Test class for tc_SystemUtilities
 */
 @isTest
-public with sharing class SystemUtilitiesTest 
+public with sharing class tc_SystemUtilitiesTest 
 {
     @istest
-    public static void systemUtilitiesTest() 
+    public static void tc_SystemUtilitiesTest() 
     {
         User currentUser = [SELECT Id, Profile.Name, CreatedBy.Profile.CreatedDate, Name, MobilePhone 
                                 FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
 
-        system.assertEquals(currentUser.Profile.Name, SystemUtilities.fetchFieldValue(currentUser, 'Profile.Name'));
-        system.assertEquals(currentUser.Id, SystemUtilities.fetchFieldValue(currentUser, 'Id'));
-        system.assertEquals(currentUser.CreatedBy.Profile.CreatedDate, SystemUtilities.fetchFieldValue(currentUser, 'CreatedBy.Profile.CreatedDate'));
+        system.assertEquals(currentUser.Profile.Name, tc_SystemUtilities.fetchFieldValue(currentUser, 'Profile.Name'));
+        system.assertEquals(currentUser.Id, tc_SystemUtilities.fetchFieldValue(currentUser, 'Id'));
+        system.assertEquals(currentUser.CreatedBy.Profile.CreatedDate, tc_SystemUtilities.fetchFieldValue(currentUser, 'CreatedBy.Profile.CreatedDate'));
 
         List<String> lstFieldApis = new List<String> 
         {
@@ -49,7 +49,7 @@ public with sharing class SystemUtilitiesTest
         };
         String formattedString = 'The current user\'\'s name is {0} and his profile is {1} and was created on {2}. His mobile phone is {3}.';
 
-        String fieldMergedString = SystemUtilities.populateFormattedString (formattedString, currentUser, lstFieldApis, 3);
+        String fieldMergedString = tc_SystemUtilities.populateFormattedString (formattedString, currentUser, lstFieldApis, 3);
 
         system.assert(fieldMergedString.contains(currentUser.Name));
         system.assert(fieldMergedString.contains(currentUser.Profile.Name));
@@ -57,10 +57,10 @@ public with sharing class SystemUtilitiesTest
     @istest
     public static void sobjectDescribeTest() 
     {
-        Schema.DisplayType dt = SystemUtilities.getFieldDisplayType('user', 'name', true);
+        Schema.DisplayType dt = tc_SystemUtilities.getFieldDisplayType('user', 'name', true);
         system.assertEquals(dt, Schema.DisplayType.String);
 
-        Schema.DescribeSObjectResult objDescribe = SystemUtilities.getSobjectDescribe(new User(Id = UserInfo.getUserId()));
+        Schema.DescribeSObjectResult objDescribe = tc_SystemUtilities.getSobjectDescribe(new User(Id = UserInfo.getUserId()));
         System.assertEquals(User.SobjectType, objDescribe.getSobjectType());
 
     }
