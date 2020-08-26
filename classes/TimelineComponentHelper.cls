@@ -1,19 +1,16 @@
 /*
 BSD 3-Clause License
+Copyright (c) 2020, Kshitij Lawate (kshitijlawate.com)
 
-Copyright (c) 2020, Kshitij Lawate
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
-
 1. Redistributions of source code must retain the above copyright notice, this
    list of conditions and the following disclaimer.
-
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
-
 3. Neither the name of the copyright holder nor the names of its
    contributors may be used to endorse or promote products derived from
    this software without specific prior written permission.
@@ -94,6 +91,10 @@ public with sharing class TimelineComponentHelper
             return this;
         }
     }
+
+    @TestVisible
+    static List<SObject> lstRecordHistory = new List<Sobject> ();
+    
     //method that is invoked from the LWC to fetch history object data. 
     @AuraEnabled(cacheable=true)
     public static TimelineWrapper getSobjectHistory(Id recordId, String objectInContext, String relationshipFieldAPIName, String historyTrackedObjectAPIName, String historyObjectAPIName, String firstLevelGrouping)
@@ -119,10 +120,7 @@ public with sharing class TimelineComponentHelper
                     //preparing History object SOQL 
                     String soql = String.format(baseSOQL, new List<String> { historyObjectAPIName, parentIdField, '\'' + twIns.historyTrackedRecordId + '\''});
                     soql += ' ORDER BY CreatedDate DESC ';
-                    if(test.isRunningTest())
-                    {
-                        soql += ' LIMIT 10 ';
-                    }
+
                     //map for top level section and its wrapper, this also contains sub section details in wrapper 
                     Map<Object, SectionWrapper> mapSectionWrapper =  new Map<Object, SectionWrapper>(); 
                     //map for sub section and its wrapper, this also contains content string details in wrapper. 
@@ -130,8 +128,12 @@ public with sharing class TimelineComponentHelper
                     //map of field Label to list of field API names
                     Map<String, Set<String>> mapFieldLabelToAPINames = new Map<String, Set<String>>();
                     Integer sectionIdCount = 0, subSectionIdCount = 0; //used for determining Ids for section and sub-sections 
-                    //system.debug('soql=' + soql);
-                    for(Sobject historySobj : Database.Query(soql))
+                    
+                    if(!Test.isRunningTest())
+                    {
+                        lstRecordHistory = Database.Query(soql);
+                    }
+                    for(Sobject historySobj : lstRecordHistory)
                     {
                         //fetching values from the object to use later
                         DateTime createdDate = (DateTime) SystemUtilities.fetchFieldValue(historySobj, 'CreatedDate');
