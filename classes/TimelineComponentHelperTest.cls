@@ -1,19 +1,16 @@
 /*
 BSD 3-Clause License
+Copyright (c) 2020, Kshitij Lawate (kshitijlawate.com)
 
-Copyright (c) 2020, Kshitij Lawate
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
-
 1. Redistributions of source code must retain the above copyright notice, this
    list of conditions and the following disclaimer.
-
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
-
 3. Neither the name of the copyright holder nor the names of its
    contributors may be used to endorse or promote products derived from
    this software without specific prior written permission.
@@ -33,11 +30,30 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 public class TimelineComponentHelperTest 
 {
     
-    @isTest(SeeAllData=true)
-    static void getSobjectHistoryTest() 
+    @isTest
+    static void timelineTestGroupByDate() 
     {
-        AccountHistory acc = [SELECT Id, AccountId FROM AccountHistory LIMIT 1];
-        TimelineComponentHelper.TimelineWrapper twIns = TimelineComponentHelper.getSobjectHistory(acc.AccountId, 'Account', 'id', 'Account', 'AccountHistory', null);
-        system.assertEquals(twIns.historyTrackedRecordId, acc.AccountId);
+        List<sObject> lstAccountHistory = Test.loadData(AccountHistory.sObjectType, 'tc_AccountHistory');
+
+        TimelineComponentHelper.lstRecordHistory = (List<AccountHistory>) lstAccountHistory;
+        TimelineComponentHelper.TimelineWrapper twIns = TimelineComponentHelper.getSobjectHistory((id) lstAccountHistory[0].get('AccountId'), 'Account', 'id', 'Account', 'AccountHistory', null);
+
+        system.assertEquals(twIns.historyTrackedRecordId, (Id)lstAccountHistory[0].get('AccountId'));
+        system.assert(twIns.lstSectionWrapper.size() > 0);
+        system.assertEquals(twIns.lstSectionWrapper[0].isDateTime, true);
+    }
+
+    @isTest
+    static void timelineTestGroupByField() 
+    {
+        List<sObject> lstAccountHistory = Test.loadData(AccountHistory.sObjectType, 'tc_AccountHistory');
+
+        TimelineComponentHelper.lstRecordHistory = (List<AccountHistory>) lstAccountHistory;
+
+        TimelineComponentHelper.TimelineWrapper twIns = TimelineComponentHelper.getSobjectHistory((id) lstAccountHistory[0].get('AccountId'), 'Account', 'id', 'Account', 'AccountHistory', 'Field');
+
+        system.assertEquals(twIns.historyTrackedRecordId, (Id)lstAccountHistory[0].get('AccountId'));
+        system.assert(twIns.lstSectionWrapper.size() > 0);
+        system.assertEquals(twIns.lstSectionWrapper[0].isDateTime, false);
     }
 }

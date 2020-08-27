@@ -1,19 +1,16 @@
 /*
 BSD 3-Clause License
+Copyright (c) 2020, Kshitij Lawate (kshitijlawate.com)
 
-Copyright (c) 2020, Kshitij Lawate
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
-
 1. Redistributions of source code must retain the above copyright notice, this
    list of conditions and the following disclaimer.
-
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
-
 3. Neither the name of the copyright holder nor the names of its
    contributors may be used to endorse or promote products derived from
    this software without specific prior written permission.
@@ -32,7 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *Class Details*
 Class with resusable utilities to use within any apex class in system
 */
-public class SystemUtilities
+public class tc_SystemUtilities
 {
 	//map with sobject name as key and sobject type as value 
 	static Map<String,Schema.SObjectType> globalDescribe;
@@ -118,13 +115,13 @@ public class SystemUtilities
 	//method to check if the object is accessible to logged in user  
 	public static Boolean isObjectAccessible(String sObjectName, Boolean doGlobalDescribe)
 	{
-		return SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).isAccessible();
+		return tc_SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).isAccessible();
 	}
 	
 	//method to check if the object is custom 
 	public static Boolean isCustomObject(String sObjectName, Boolean doGlobalDescribe)
 	{
-		return SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).isCustom();
+		return tc_SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).isCustom();
 	}
 
 	//method to check if the field is accessbile to current user
@@ -133,7 +130,7 @@ public class SystemUtilities
 		String isAccessible = 'n';
 		if(!fieldMap.containsKey(fieldAPIName))
 		{
-			fieldMap = SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).fields.getMap();
+			fieldMap = tc_SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).fields.getMap();
 		}
 		if(fieldMap.containsKey(fieldAPIName))
 		{
@@ -151,7 +148,7 @@ public class SystemUtilities
 		Schema.DisplayType returnVal;
 		if(!fieldMap.containsKey(fieldAPIName))
 		{
-			fieldMap = SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).fields.getMap();
+			fieldMap = tc_SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).fields.getMap();
 		}
 		if(fieldMap.containsKey(fieldAPIName))
 		{
@@ -166,7 +163,7 @@ public class SystemUtilities
 		Boolean isEncrypted = false;
 		if(!fieldMap.containsKey(fieldAPIName))
 		{
-			fieldMap = SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).fields.getMap();
+			fieldMap = tc_SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).fields.getMap();
 		}
 		if(fieldMap.containsKey(fieldAPIName))
 		{
@@ -185,7 +182,7 @@ public class SystemUtilities
 		}
 		if(!fieldMap.containsKey(fieldAPIName))
 		{
-			fieldMap = SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).fields.getMap();
+			fieldMap = tc_SystemUtilities.getSobjectDescribe(sObjectName, doGlobalDescribe).fields.getMap();
 		}
 		fieldLabel = fieldMap.containsKey(fieldAPIName) ? fieldMap.get(fieldAPIName).getDescribe().getLabel() : fieldAPIName;
 		return fieldLabel;

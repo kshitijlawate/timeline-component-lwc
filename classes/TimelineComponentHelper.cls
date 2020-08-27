@@ -1,19 +1,16 @@
 /*
 BSD 3-Clause License
+Copyright (c) 2020, Kshitij Lawate (kshitijlawate.com)
 
-Copyright (c) 2020, Kshitij Lawate
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
-
 1. Redistributions of source code must retain the above copyright notice, this
    list of conditions and the following disclaimer.
-
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
-
 3. Neither the name of the copyright holder nor the names of its
    contributors may be used to endorse or promote products derived from
    this software without specific prior written permission.
@@ -94,6 +91,10 @@ public with sharing class TimelineComponentHelper
             return this;
         }
     }
+
+    @TestVisible
+    static List<SObject> lstRecordHistory = new List<Sobject> ();
+    
     //method that is invoked from the LWC to fetch history object data. 
     @AuraEnabled(cacheable=true)
     public static TimelineWrapper getSobjectHistory(Id recordId, String objectInContext, String relationshipFieldAPIName, String historyTrackedObjectAPIName, String historyObjectAPIName, String firstLevelGrouping)
@@ -113,16 +114,13 @@ public with sharing class TimelineComponentHelper
                     firstLevelGrouping = String.isEmpty(firstLevelGrouping) ? 'Date' : firstLevelGrouping; 
                     GroupSettingsWrapper gsWrapper = mapGroupLevelToWrapper.get(firstLevelGrouping); //get settings for first level grouping 
                     String firstGroupField = gsWrapper.objectFieldAPIName;
-                    Boolean isCustomObj = SystemUtilities.isCustomObject(historyTrackedObjectNameLower, false);
+                    Boolean isCustomObj = tc_SystemUtilities.isCustomObject(historyTrackedObjectNameLower, false);
                     //determining relationship field name 
                     String parentIdField  = isCustomObj ? 'ParentId' : historyTrackedObjectAPIName + 'Id';
                     //preparing History object SOQL 
                     String soql = String.format(baseSOQL, new List<String> { historyObjectAPIName, parentIdField, '\'' + twIns.historyTrackedRecordId + '\''});
                     soql += ' ORDER BY CreatedDate DESC ';
-                    if(test.isRunningTest())
-                    {
-                        soql += ' LIMIT 10 ';
-                    }
+                    
                     //map for top level section and its wrapper, this also contains sub section details in wrapper 
                     Map<Object, SectionWrapper> mapSectionWrapper =  new Map<Object, SectionWrapper>(); 
                     //map for sub section and its wrapper, this also contains content string details in wrapper. 
@@ -130,15 +128,19 @@ public with sharing class TimelineComponentHelper
                     //map of field Label to list of field API names
                     Map<String, Set<String>> mapFieldLabelToAPINames = new Map<String, Set<String>>();
                     Integer sectionIdCount = 0, subSectionIdCount = 0; //used for determining Ids for section and sub-sections 
-                    //system.debug('soql=' + soql);
-                    for(Sobject historySobj : Database.Query(soql))
+                    
+                    if(!Test.isRunningTest())
+                    {
+                        lstRecordHistory = Database.Query(soql);
+                    }
+                    for(Sobject historySobj : lstRecordHistory)
                     {
                         //fetching values from the object to use later
-                        DateTime createdDate = (DateTime) SystemUtilities.fetchFieldValue(historySobj, 'CreatedDate');
-                        String userName = (String)SystemUtilities.fetchFieldValue(historySobj, 'CreatedBy.Name');
-                        String modifiedField = (String)SystemUtilities.fetchFieldValue(historySobj, 'Field');
-                        Object oldValue = SystemUtilities.fetchFieldValue(historySobj, 'OldValue');
-                        Object newValue = SystemUtilities.fetchFieldValue(historySobj, 'NewValue');
+                        DateTime createdDate = (DateTime) tc_SystemUtilities.fetchFieldValue(historySobj, 'CreatedDate');
+                        String userName = (String)tc_SystemUtilities.fetchFieldValue(historySobj, 'CreatedBy.Name');
+                        String modifiedField = (String)tc_SystemUtilities.fetchFieldValue(historySobj, 'Field');
+                        Object oldValue = tc_SystemUtilities.fetchFieldValue(historySobj, 'OldValue');
+                        Object newValue = tc_SystemUtilities.fetchFieldValue(historySobj, 'NewValue');
 
                         //checking if the field and new value are valid to move forward. this checks things such as accessbility. 
                         if(!isRecordValid(historyTrackedObjectNameLower, historySobj))
@@ -146,7 +148,7 @@ public with sharing class TimelineComponentHelper
                             continue;
                         }
                         //value for top level grouping field 
-                        Object firstGroupValue = SystemUtilities.fetchFieldValue(historySobj, firstGroupField);
+                        Object firstGroupValue = tc_SystemUtilities.fetchFieldValue(historySobj, firstGroupField);
                         //determining key for 'mapSectionWrapper' map depending on first level group value type. 
                         Object mapKey = firstLevelGrouping == 'Date' ? 
                                         ((DateTime)firstGroupValue).Year() + '-' + ((DateTime)firstGroupValue).month() : 
@@ -162,7 +164,7 @@ public with sharing class TimelineComponentHelper
                             {
                                 String mapKeySF = historyObjectAPIName.toLowerCase() + '|' + ((String)firstGroupValue).toLowerCase();
                                 String firstGroupValueFinal = mapStandardField.containsKey(mapKeySF) ? mapStandardField.get(mapKeySF) : (String)firstGroupValue;
-                                String firstLevelFieldLabel = SystemUtilities.fetchFieldLabel(firstGroupValueFinal, historyTrackedObjectNameLower, false);
+                                String firstLevelFieldLabel = tc_SystemUtilities.fetchFieldLabel(firstGroupValueFinal, historyTrackedObjectNameLower, false);
                                 swIns.sectionTitle = systemEvents.contains(firstLevelFieldLabel) ? 
                                             String.format(systemEventTemplate, new List<String> { firstLevelFieldLabel }) :
                                             firstLevelFieldLabel;
@@ -185,7 +187,7 @@ public with sharing class TimelineComponentHelper
                         //if the id is blank, it means this the first instance of section, define all required values                    
                         if(String.isEmpty(ssIns.subSectionId))
                         {
-                            String ssTitle = SystemUtilities.populateFormattedString(gsWrapper.subSectionTitle, historySobj, gsWrapper.lstSubSectionFields, 3);
+                            String ssTitle = tc_SystemUtilities.populateFormattedString(gsWrapper.subSectionTitle, historySobj, gsWrapper.lstSubSectionFields, 3);
                             ssIns = new SubSectionWrapper('SubSection-' + subSectionIdCount, ssTitle, createdDate);
                             subSectionIdCount++;
                             swIns.addSubSection(ssIns);
@@ -194,13 +196,13 @@ public with sharing class TimelineComponentHelper
                         //String fieldAPIName = modifiedField;
                         String mapKeySF = historyObjectAPIName.toLowerCase() + '|' + modifiedField.toLowerCase();
                         modifiedField = mapStandardField.containsKey(mapKeySF) ? mapStandardField.get(mapKeySF) : modifiedField;
-                        String fieldLabel = SystemUtilities.fetchFieldLabel(modifiedField, historyTrackedObjectNameLower, false);
+                        String fieldLabel = tc_SystemUtilities.fetchFieldLabel(modifiedField, historyTrackedObjectNameLower, false);
 
                         Set<String> lstFieldAPIs = mapFieldLabelToAPINames.containsKey(fieldLabel) ? 
                                                     mapFieldLabelToAPINames.get(fieldLabel) : new Set<String>();
                         lstFieldAPIs.add(modifiedField);
                         mapFieldLabelToAPINames.put(fieldLabel, lstFieldAPIs);
-                        Boolean isEncrypted = SystemUtilities.isEncryptedField(historyTrackedObjectNameLower, modifiedField, false);
+                        Boolean isEncrypted = tc_SystemUtilities.isEncryptedField(historyTrackedObjectNameLower, modifiedField, false);
                         //creating content wrapper
                         ssIns.addToContent(defineContentWrapper(historySobj, fieldLabel, isEncrypted, gsWrapper));
                         
@@ -250,8 +252,8 @@ public with sharing class TimelineComponentHelper
     {
         String contentString = '';
         List<String> sTags;
-        Object oldValue = SystemUtilities.fetchFieldValue(historySobj, 'OldValue');
-        Object newValue = SystemUtilities.fetchFieldValue(historySobj, 'NewValue');
+        Object oldValue = tc_SystemUtilities.fetchFieldValue(historySobj, 'OldValue');
+        Object newValue = tc_SystemUtilities.fetchFieldValue(historySobj, 'NewValue');
         //condition to handle system events such as Record creation, locking, etc.
         if(systemEvents.contains(fieldLabel))
         {
@@ -262,21 +264,21 @@ public with sharing class TimelineComponentHelper
         else if(oldValue != null && newValue != null && !isEncrypted)
         {
             String mergedTemplate = String.format(gsWrapper.withNewOldValue, new List<String> { fieldLabel } );
-            contentString = SystemUtilities.populateFormattedString(mergedTemplate, historySobj, gsWrapper.lstContentFields, 3);
+            contentString = tc_SystemUtilities.populateFormattedString(mergedTemplate, historySobj, gsWrapper.lstContentFields, 3);
             sTags = new List<String> { fieldLabel.toLowerCase(), String.valueof(oldValue).toLowerCase(), String.valueof(newValue).toLowerCase() };
         }
         //when new value is assigned from a blank value 
         else if(newValue != null  && !isEncrypted)
         {
             String mergedTemplate = String.format(gsWrapper.withNewValueOnly, new List<String> { fieldLabel } );
-            contentString = SystemUtilities.populateFormattedString(mergedTemplate, historySobj, gsWrapper.lstContentFields, 3);
+            contentString = tc_SystemUtilities.populateFormattedString(mergedTemplate, historySobj, gsWrapper.lstContentFields, 3);
             sTags = new List<String> { fieldLabel.toLowerCase() , String.valueof(newValue).toLowerCase() };
         }
         //when value is deleted from the field 
         else if(oldValue != null && newValue == null  && !isEncrypted)
         {
             String mergedTemplate = String.format(gsWrapper.withOldValueOnly, new List<String> { fieldLabel } );
-            contentString = SystemUtilities.populateFormattedString(mergedTemplate, historySobj, gsWrapper.lstContentFields, 3);
+            contentString = tc_SystemUtilities.populateFormattedString(mergedTemplate, historySobj, gsWrapper.lstContentFields, 3);
             sTags = new List<String> { fieldLabel.toLowerCase() , String.valueof(oldValue).toLowerCase() };
         }
         //when only change is captured, no value is captured. e.g. text area fields
@@ -344,7 +346,7 @@ public with sharing class TimelineComponentHelper
             twIns.displayMessage = System.Label.tc_invalidIdMessage;
             isValid = false;
         }
-        else if(!SystemUtilities.isObjectAccessible(historyTrackedObjectAPIName, false))
+        else if(!tc_SystemUtilities.isObjectAccessible(historyTrackedObjectAPIName, false))
         {
             twIns.displayMessage = System.Label.tc_noObjectAccessMessage;
             isValid = false;
@@ -355,9 +357,9 @@ public with sharing class TimelineComponentHelper
     static Boolean isRecordValid(String historyTrackedObjectName, Sobject historySObj)
     {
         Boolean isValid = true;
-        String modifiedField = (String)SystemUtilities.fetchFieldValue(historySObj, 'Field');
-        Object newValue = SystemUtilities.fetchFieldValue(historySObj, 'NewValue');
-        Object oldValue = SystemUtilities.fetchFieldValue(historySObj, 'OldValue');
+        String modifiedField = (String)tc_SystemUtilities.fetchFieldValue(historySObj, 'Field');
+        Object newValue = tc_SystemUtilities.fetchFieldValue(historySObj, 'NewValue');
+        Object oldValue = tc_SystemUtilities.fetchFieldValue(historySObj, 'OldValue');
 
         //if the tracked value is Id then skip it. 
         // *****Current HISTORY OBJECT QUERY for lookup, master detail fields gives two recrds, one with Id and another with label. Skipping the Id 
@@ -368,7 +370,7 @@ public with sharing class TimelineComponentHelper
         }
         if(isValid && !String.isEmpty(modifiedField))
         {
-            String isAccessible = SystemUtilities.isFieldAccessible(historyTrackedObjectName, modifiedField, false);
+            String isAccessible = tc_SystemUtilities.isFieldAccessible(historyTrackedObjectName, modifiedField, false);
             //assigning is valid as TRUE if the field is accessible or not found the in map. The later will happen for standard lookups.
             isValid = isAccessible == 'y' || isAccessible == '404';
         }
