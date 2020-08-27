@@ -21,3 +21,6 @@ The component can be added to Lightning Record pages to show history for the rec
 1. Improve Search Mechanism; move away from linear search, more towards dictionary like approach.
 2. Move the configuration to Custom metadata.
 3. Add additional filters with an option for configuring default filters
+
+# How to install
+You can use this package link to install the component, https://login.salesforce.com/packaging/installPackage.apexp?p0=04t3l000000KoJW.
