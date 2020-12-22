@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>SystemUtilities</members>
+        <members>tc_SystemUtilities</members>
+        <members>tc_SystemUtilitiesTest</members>
         <members>TimelineComponentHelper</members>
         <members>TimelineComponentHelperTest</members>
         <name>ApexClass</name>
@@ -17,6 +18,10 @@
         <members>historyTimeline</members>
         <members>timelineItemDetail</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>tc_AccountHistory</members>
+        <name>StaticResource</name>
     </types>
     <version>48.0</version>
 </Package>
