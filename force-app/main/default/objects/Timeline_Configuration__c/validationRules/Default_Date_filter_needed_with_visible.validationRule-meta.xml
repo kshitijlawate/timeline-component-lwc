@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Default_Date_filter_needed_with_visible</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Visible_Date_Filters__c)),
+    ISBLANK(TEXT( Default_Date_Filter__c ))
+)</errorConditionFormula>
+    <errorDisplayField>Default_Date_Filter__c</errorDisplayField>
+    <errorMessage>Please populate a value for Default Date Filter when Visible Date Filters are populated.</errorMessage>
+</ValidationRule>

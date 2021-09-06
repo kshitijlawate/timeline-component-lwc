@@ -26,7 +26,6 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
-
 <template>
     <lightning-card>
         <template if:true={showSpinner}>
@@ -47,8 +46,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     <lightning-button-icon icon-name="utility:refresh" tooltip="Refresh Data" onclick={refreshData}>
                     </lightning-button-icon>
                 </div>
-                <template if:true={showDesertIllustration}>
-                    <div class="slds-col">
+                <template if:false={showDesertIllustration}>
+                    <div class="slds-col slds-m-right_xx-small">
                         <lightning-button-group>
                             <lightning-button-icon icon-name="utility:expand_alt" tooltip="Expand all Subsections"
                                 onclick={handleAllSubSectionExpand}>
@@ -59,11 +58,34 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                         </lightning-button-group>
                     </div>
                 </template>
-                <template if:true={showTableFormatButton}>
-                    <div class="slds-col  slds-m-left_xx-small">
+
+                <lightning-button-group>
+                    <template if:true={showTableFormatButton}>
+                        <!-- <div class="slds-col  slds-m-left_xx-small"> -->
                         <lightning-button-icon icon-name="utility:full_width_view" tooltip="View in table format."
                             onclick={handleTableRedirect}>
                         </lightning-button-icon>
+                        <!-- </div> -->
+                    </template>
+                    <template if:true={showRecordLink}>
+                        <!-- <div class="slds-col  slds-m-left_xx-small"> -->
+                        <lightning-button-icon icon-name="utility:open" tooltip="Navigate to Record detail."
+                            onclick={handleRecordDetailsRedirect} aria-haspopup="true">
+                        </lightning-button-icon>
+                        <!-- </div> -->
+                    </template>
+                </lightning-button-group>
+
+                <template if:true={showDateFilter}>
+                    <div class="slds-col slds-m-left_xx-small">
+                        <lightning-button-menu alternative-text="Show menu" variant="border-filled"
+                            class="my-button-menu" icon-name="utility:event" onselect={handleOnselect}>
+                            <template for:each={calendarFilter} for:item="menuItem">
+                                <lightning-menu-item key={menuItem.id} value={menuItem.value} label={menuItem.label}
+                                    checked={menuItem.checked}>
+                                </lightning-menu-item>
+                            </template>
+                        </lightning-button-menu>
                     </div>
                 </template>
 
@@ -75,14 +97,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                     <lightning-helptext content="Enter at-least 3 characters. Search for Fields, Old and New Values.">
                     </lightning-helptext>
                 </div>
-
-
             </div>
         </div>
-        <template if:false={showDesertIllustration}>
-            <c-desert-illustration message-to-display={displayMessage}></c-desert-illustration>
+
+        <template if:true={showFilterInfo}>
+            <div class="slds-m-left_xx-small slds-text-align_left slds-text-color_weak">
+                <span style="font-weight:bold;">Filtered By:</span>
+                <span class="slds-m-left_xx-small">Date = {selectedDateFilterLabel}</span>
+            </div>
         </template>
         <template if:true={showDesertIllustration}>
+            <c-desert-illustration message-to-display={displayMessage}>
+            </c-desert-illustration>
+        </template>
+        <template if:false={showDesertIllustration}>
+
             <div class="slds-scrollable slds-border_bottom" style={timelineHeightStyle}>
                 <template for:each={listOfValues} for:item="section">
                     <div class="slds-section slds-is-open" key={section.sectionId} data-id={section.sectionId}

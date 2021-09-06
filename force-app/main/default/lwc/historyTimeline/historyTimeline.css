@@ -3,3 +3,7 @@
     font-weight: bold;
     font-size: 13px;
 }
+
+.my-button-menu {
+    --sds-c-button-color-background: orange;
+}

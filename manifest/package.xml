@@ -1,16 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>tc_SystemUtilities</members>
-        <members>tc_SystemUtilitiesTest</members>
+        <members>SystemUtilities</members>
+        <members>SystemUtilitiesTest</members>
         <members>TimelineComponentHelper</members>
-        <members>TimelineComponentHelperTest</members>
+        <members>TimelineComponentTest</members>
+        <members>TimelineProperties</members>
+        <members>GroupSettingsWrapper</members>
+        <members>TimelineConfigurationHandler</members>
+        <members>BaseWrapper</members>
+        <members>ContentWrapper</members>
+        <members>SubSectionWrapper</members>
+        <members>FilterWrapper</members>
+        <members>ParamWrapper</members>
+        <members>DropdownWrapper</members>
+        <members>SectionWrapper</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>tc_invalidIdMessage</members>
-        <members>tc_noHistoryDataMessage</members>
-        <members>tc_noObjectAccessMessage</members>
+        <members>TimelineConfigurationTrigger</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>MsgError_InvalidId</members>
+        <members>MsgError_NoHistoryData</members>
+        <members>MsgError_NoObjectAccess</members>
+        <members>MsgError_TimelineConfigDefaultFilter</members>
+        <members>MsgError_NoRecordId</members>
+        <members>MsgError_NoRelatedRecord</members>
+        <members>MsgError_NoTimelineConfig</members>
+        <members>MsgError_Generic</members>
         <name>CustomLabel</name>
     </types>
     <types>
@@ -20,8 +39,37 @@
         <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>tc_AccountHistory</members>
+        <members>AccountHistory</members>
         <name>StaticResource</name>
     </types>
-    <version>48.0</version>
+    <types>
+        <members>Date_Filter_Values</members>
+        <name>GlobalValueSet</name>
+    </types>
+    <types>
+        <members>Timeline_Configuration__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Timeline_Configuration__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Timeline_Configuration__c-History Config Layout</members>
+        <members>Timeline_Configuration__c-Timeline Configuration Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Timeline_Configuration__c.Default_Date_filter_needed_with_visible</members>
+        <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>Admin</members>
+        <name>Profile</name>
+    </types>
+    <types>
+        <members>Timeline_Configuration_Record_Page</members>
+        <name>FlexiPage</name>
+    </types>
+    <version>52.0</version>
 </Package>
