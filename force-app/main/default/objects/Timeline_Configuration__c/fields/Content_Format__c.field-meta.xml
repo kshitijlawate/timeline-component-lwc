@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Content_Format__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Defines format in which Timeline content is displayed.</inlineHelpText>
+    <label>Content Format</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Classic</fullName>
+                <default>true</default>
+                <label>Classic</label>
+            </value>
+            <value>
+                <fullName>Minimal</fullName>
+                <default>false</default>
+                <label>Minimal</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

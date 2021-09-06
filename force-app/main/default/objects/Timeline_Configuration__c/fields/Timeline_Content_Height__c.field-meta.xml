@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Timeline_Content_Height__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Enter height with unit such as px, rem, em, etc. Leave blank to let the timeline expand based on content. This value overrides the value provided in Lightning App builder.</inlineHelpText>
+    <label>Timeline Content Height</label>
+    <length>255</length>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

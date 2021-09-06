@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property label="Timeline Title" type="String" name="componentTitle" />
+            <property label=" Height of Timeline Content (Value replaced by Timeline Config. when provided)" type="String" name=" timelineHeight" default=" 600px" description=" Enter height with unit such as px, rem, em, etc. Leave blank to let the timeline expand based on content." />
+            <property label="Timeline Config Identifier (Leave blank for default settings)" type="String" name="timelineConfigName" description="Enter Config Identifier value on the Timeline Configuration record that provides additional details required for custom configuration." default=" " />
+            <property label=" API Name of relationship field on the object in context" type="String" name=" relationshipFieldAPI" description=" Enter the API Name of the lookup or master detail field on object where the component is added. This field provides Id of history tracked record." default="Id" required="true" />
+
+            <supportedFormFactors>
+                <supportedFormFactor type="Large" />
+                <supportedFormFactor type="Small" />
+            </supportedFormFactors>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

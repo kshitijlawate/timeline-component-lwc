@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Config_Identifier__c</fullName>
+    <caseSensitive>true</caseSensitive>
+    <externalId>true</externalId>
+    <inlineHelpText>This value is used to identify configuration for the component. This value should be provided in LIghtning App Builder when configuring the component.</inlineHelpText>
+    <label>Config Identifier</label>
+    <length>255</length>
+    <required>true</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

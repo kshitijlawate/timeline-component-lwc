@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>ALL_TIME</fullName>
+        <default>false</default>
+        <label>All Time</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_QUARTER+NEXT_N_QUARTERS:3</fullName>
+        <default>false</default>
+        <label>Current and Next 3 CQ</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_FISCAL_QUARTER+NEXT_N_FISCAL_​QUARTERS:3</fullName>
+        <default>false</default>
+        <label>Current and Next 3 FQ</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_QUARTER+NEXT_QUARTER</fullName>
+        <default>false</default>
+        <label>Current and Next CQ</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_YEAR+NEXT_YEAR</fullName>
+        <default>false</default>
+        <label>Current and Next CY</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_FISCAL_QUARTER+NEXT_FISCAL_QUARTER</fullName>
+        <default>false</default>
+        <label>Current and Next FQ</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_FISCAL_YEAR+ NEXT_FISCAL_YEAR</fullName>
+        <default>false</default>
+        <label>Current and Next FY</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_MONTH+NEXT_MONTH</fullName>
+        <default>false</default>
+        <label>Current and Next Month</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_YEAR+LAST_N_YEARS:2</fullName>
+        <default>false</default>
+        <label>Current and Previous 2 CY</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_FISCAL_YEAR+LAST_N_FISCAL_​YEARS:2</fullName>
+        <default>false</default>
+        <label>Current and Previous 2 FY</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_QUARTER+LAST_QUARTER</fullName>
+        <default>false</default>
+        <label>Current and Previous CQ</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_YEAR+LAST_YEAR</fullName>
+        <default>false</default>
+        <label>Current and Previous CY</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_FISCAL_QUARTER+LAST_FISCAL_QUARTER</fullName>
+        <default>false</default>
+        <label>Current and Previous FQ</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_FISCAL_YEAR+LAST_FISCAL_YEAR</fullName>
+        <default>false</default>
+        <label>Current and Previous FY</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_MONTH+LAST_MONTH</fullName>
+        <default>false</default>
+        <label>Current and Previous Month</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_QUARTER</fullName>
+        <default>false</default>
+        <label>Current CQ</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_YEAR</fullName>
+        <default>false</default>
+        <label>Current CY</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_FISCAL_QUARTER</fullName>
+        <default>false</default>
+        <label>Current FQ</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_FISCAL_YEAR</fullName>
+        <default>false</default>
+        <label>Current FY</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_N_DAYS:120</fullName>
+        <default>false</default>
+        <label>Last 120 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_N_DAYS:30</fullName>
+        <default>false</default>
+        <label>Last 30 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_N_DAYS:60</fullName>
+        <default>false</default>
+        <label>Last 60 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_N_DAYS:7</fullName>
+        <default>false</default>
+        <label>Last 7 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_90_DAYS</fullName>
+        <default>false</default>
+        <label>Last 90 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_MONTH</fullName>
+        <default>false</default>
+        <label>Last Month</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_WEEK</fullName>
+        <default>false</default>
+        <label>Last Week</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_N_DAYS:120</fullName>
+        <default>false</default>
+        <label>Next 120 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_N_DAYS:30</fullName>
+        <default>false</default>
+        <label>Next 30 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_N_DAYS:60</fullName>
+        <default>false</default>
+        <label>Next 60 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_N_DAYS:7</fullName>
+        <default>false</default>
+        <label>Next 7 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_90_DAYS</fullName>
+        <default>false</default>
+        <label>Next 90 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_QUARTER</fullName>
+        <default>false</default>
+        <label>Next CQ</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_YEAR</fullName>
+        <default>false</default>
+        <label>Next CY</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_FISCAL_QUARTER</fullName>
+        <default>false</default>
+        <label>Next FQ</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_FISCAL_YEAR</fullName>
+        <default>false</default>
+        <label>Next FY</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_MONTH</fullName>
+        <default>false</default>
+        <label>Next Month</label>
+    </customValue>
+    <customValue>
+        <fullName>NEXT_WEEK</fullName>
+        <default>false</default>
+        <label>Next Week</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_N_YEARS:2</fullName>
+        <default>false</default>
+        <label>Previous 2 CY</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_N_FISCAL_​YEARS:2</fullName>
+        <default>false</default>
+        <label>Previous 2 FY</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_QUARTER</fullName>
+        <default>false</default>
+        <label>Previous CQ</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_YEAR</fullName>
+        <default>false</default>
+        <label>Previous CY</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_FISCAL_QUARTER</fullName>
+        <default>false</default>
+        <label>Previous FQ</label>
+    </customValue>
+    <customValue>
+        <fullName>LAST_FISCAL_YEAR</fullName>
+        <default>false</default>
+        <label>Previous FY</label>
+    </customValue>
+    <customValue>
+        <fullName>THIS_WEEK</fullName>
+        <default>false</default>
+        <label>This Week</label>
+    </customValue>
+    <customValue>
+        <fullName>TODAY</fullName>
+        <default>false</default>
+        <label>Today</label>
+    </customValue>
+    <customValue>
+        <fullName>TOMORROW</fullName>
+        <default>false</default>
+        <label>Tomorrow</label>
+    </customValue>
+    <customValue>
+        <fullName>YESTERDAY</fullName>
+        <default>false</default>
+        <label>Yesterday</label>
+    </customValue>
+    <masterLabel>Date Filter Values</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>
